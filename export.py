@@ -1,4 +1,5 @@
 import time
+from os.path import exists
 
 import json
 from pyrogram import Client, Message
@@ -34,5 +35,9 @@ if __name__ == '__main__':
 
     app.stop()
 
-    with open('history.json', 'w') as f:
-        json.dump(messages, f, ensure_ascii=False, indent=2)
+    dump_file = 'history.json'
+    if exists(dump_file):
+        print("Already dumped")
+    else:
+        with open(dump_file, 'w') as f:
+            json.dump(messages, f, ensure_ascii=False, indent=2)
