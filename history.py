@@ -23,3 +23,9 @@ class History:
 
     def __iter__(self) -> Iterator[Message]:
         return iter(self.messages)
+
+    @staticmethod
+    def load(path):
+        with open(path) as f:
+            import json
+            return History(json.load(f))
