@@ -10,8 +10,9 @@ if __name__ == '__main__':
             if not event.time: continue
             time: datetime = datetime.strptime(event.time, "%H:%M")
 
-            contains = (time.strftime("%-H:%M") in msg.text) or \
-                       (time.strftime("%-H-%M") in msg.text)
+            contains = (time.strftime("%-H:%M") in msg.original_text) or \
+                       (time.strftime("%-H-%M") in msg.original_text) or \
+                       (time.strftime("%-H.%M") in msg.original_text)
 
             if not contains:
                 failed = True
