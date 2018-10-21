@@ -1,11 +1,12 @@
 from datetime import datetime
 
-from history import History
+from structure import History
 
+# checks the time is mentioned in the original message
 if __name__ == '__main__':
     failed = False
 
-    for msg in History.load('history.json'):
+    for msg in History.load():
         for name, event in msg.status.items():
             if not event.time: continue
             time: datetime = datetime.strptime(event.time, "%H:%M")

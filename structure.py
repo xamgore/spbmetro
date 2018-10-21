@@ -1,5 +1,5 @@
 import re
-from typing import List, Dict, Iterator
+from typing import List, Dict, Iterator, Set
 
 alex_nevsky = re.compile(r'(ст\.?|ст[а-я]+)?\s*(пл[а-я]+|пл\.?)?\s*(ал\.?|алекс[а-я]*)\s*не\.?[а-я]*\s*-?', re.U)
 pl_muzhestva = re.compile(r'(ст\.?|ст[а-я]+)?\s*(пл[а-я]+|пл\.?)?\s*(муж[а-я]*)\s*-?', re.U)
@@ -23,6 +23,7 @@ class Event:
 
 class Message:
     def __init__(self, data) -> None:
+        self._data = data
         self.message_id: int = data['message_id']
         self.date: int = data['date']
         self.status: Dict[str, Event] = {k: Event(k, v) for k, v in data.get('status', {}).items()}
@@ -44,15 +45,53 @@ class Message:
 
 class History:
     def __init__(self, messages: List) -> None:
-        self.messages: List[Message] = list(map(Message, messages))
+        self.messages: Dict[int, Message] = {int(m.message_id): m for m in map(Message, messages)}
 
 
     def __iter__(self) -> Iterator[Message]:
-        return iter(self.messages)
+        return iter(self.messages.values())
 
 
     @staticmethod
-    def load(path):
-        with open(path) as f:
+    def load(path: str = 'history.json'):
+        with open(path or 'history.json') as f:
             import json
             return History(json.load(f))
+
+
+class Station:
+    def __init__(self, name: str, line, vestibules: int = 1):
+        self.name: str = name
+        self.line: Line = line
+        self.vestibules_number: int = vestibules
+        self.transfers: Set[Station] = set()
+
+
+class Line:
+    def __init__(self, number: int, data: Dict):
+        self.number: int = number
+        self.alias: str = data['alias']
+        self.color: str = data['color']
+        self.stations: Dict[str, Station] = {st: Station(st, self) for st in data['stations']}
+
+
+class Subway:
+    def __init__(self, data) -> None:
+        self.lines: List[Line] = [Line(num, data) for num, data in data['lines'].items()]
+
+        self.stations: Dict[str, Station] = \
+            {st.name: st for line in self.lines for st in line.stations.values()}
+
+        for bunch in data.get('transfers', []):
+            for idx, station in enumerate(self.stations[st] for st in bunch):
+                station.transfers = set(bunch[:idx] + bunch[idx + 1:])
+
+        for station, number in data.get('vestibules', {}).items():
+            self.stations[station].vestibules_number = number
+
+
+    @staticmethod
+    def load(path: str = None):
+        with open(path or 'metro.json') as f:
+            import json
+            return Subway(json.load(f))
