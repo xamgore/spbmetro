@@ -1,0 +1,61 @@
+html, body {
+    display: flex;
+    justify-content: center;
+}
+
+#app {
+    max-width: 680px;
+    padding-top: 10%
+}
+
+.card {
+    min-width: 100%;
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+.card-text {
+    white-space: pre-wrap;
+}
+
+.message {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.id {
+    color: #ccc;
+    margin: 1rem;
+    position: relative;
+}
+
+.id, .id:after {
+    transition: color .4s;
+}
+
+.id:hover, .id:hover:after {
+    color: #777;
+}
+
+.id:after {
+    content: attr(data-date);
+    display: block;
+    position: absolute;
+    right: 0;
+    white-space: nowrap;
+    font-size: smaller;
+    color: #cccccca1;
+}
+
+.station {
+    width: 0.7rem;
+    height: 0.7rem;
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+.badge-info {
+    background-color: var(--purple);
+}

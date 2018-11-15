@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Rule checker</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.14.1/lodash.min.js"></script>
+  <script src="https://momentjs.com/downloads/moment.min.js"></script>
+  <script src="/static/stations/message.js"></script>
+  <link rel="stylesheet" href="/static/stations/style.css"/>
+</head>
+<body>
+
+<div id="app" v-if="messages" class="container">
+  <message v-for="m in messages" :msg="m" :subway="subway" :station-to-color="stationToColor"
+           :key="m.message_id" class="mb-3"></message>
+</div>
+
+<script>
+
+  var app = new Vue({
+    el: '#app',
+    data: {
+      subway: [],
+      stationToColor: {},
+      messages: [],
+      busy: false,
+      offset: 0,
+      load: true,
+    },
+    methods: {
+      loadMore: function () {
+        if (!this.load) return;
+        if (this.busy) return setTimeout(() => this.loadMore(), 500);
+        this.busy = true;
+
+        fetch(`/api${window.location.pathname}/${this.offset}`)
+          .then(res => res.json())
+          .then(res => {
+            this.messages.push(...res);
+            this.offset += 10;
+            this.busy = false;
+            if (res.length) setTimeout(() => this.loadMore(), 2000);
+            else this.load = false;
+          });
+      }
+    },
+    created() {
+      this.loadMore();
+
+      fetch('/subway')
+        .then(res => res.json())
+        .then(res => {
+          let lines = Object.values(res.lines);
+          let stations = lines.map(l => l.stations.map(st => ({
+            name: st.replace(/\s*\d+\s*/, ''), color: l.color
+          })));
+
+          this.subway = [].concat(...stations);
+          this.stationToColor = _.mapValues(_.keyBy(this.subway, 'name'), 'color');
+        });
+    }
+  });
+</script>
+
+</body>
+</html>
