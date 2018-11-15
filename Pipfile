@@ -6,6 +6,13 @@ name = "pypi"
 [packages]
 pyrogram = "*"
 tgcrypto = "*"
+Flask = "*"
+python-Levenshtein = "*"
+yargy = "*"
+ipymarkup = "*"
+IPython = "*"
+more-itertools = "*"
+memoized = "*"
 
 [dev-packages]
 
