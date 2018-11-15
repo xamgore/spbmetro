@@ -1,12 +1,11 @@
-from sys import argv
-
-import time
-from os.path import exists
-
 import json
-from pyrogram import Client, Message
+import os
+from pyrogram import Client
 from pyrogram.api.errors import FloodWait
 
+import time
+
+os.chdir(os.path.dirname(os.path.realpath(__file__)))
 app = Client("igor_main")
 
 messages = []  # List that will contain all the messages of the target chat
@@ -37,9 +36,6 @@ if __name__ == '__main__':
 
     app.stop()
 
-    dump_file = 'history.json'
-    if exists(dump_file) and not argv[1:] in ['-f', '--force']:
-        print("Already dumped")
-    else:
-        with open(dump_file, 'w') as f:
-            json.dump(messages, f, ensure_ascii=False, indent=2)
+    dump_file = '../history.json'
+    with open(dump_file, 'w') as f:
+        json.dump(messages, f, ensure_ascii=False, indent=2)
