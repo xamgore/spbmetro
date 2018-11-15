@@ -1,4 +1,5 @@
-/config.ini
+config.ini
+Pipfile.lock
 *.session
 
 # Created by .ignore support plugin (hsz.mobi)
