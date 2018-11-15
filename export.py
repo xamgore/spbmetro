@@ -1,3 +1,5 @@
+from sys import argv
+
 import time
 from os.path import exists
 
@@ -36,7 +38,7 @@ if __name__ == '__main__':
     app.stop()
 
     dump_file = 'history.json'
-    if exists(dump_file):
+    if exists(dump_file) and not argv[1:] in ['-f', '--force']:
         print("Already dumped")
     else:
         with open(dump_file, 'w') as f:
