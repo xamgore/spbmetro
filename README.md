@@ -17,3 +17,13 @@ Then it will be possible to notify citizens more efficiently: make predictions i
 * `structure.py` — data objects with typings, describing subway and history
 
 Run this project via PyCharm, cause I don't really get, how to run it from CLI.
+
+### Usage
+
+Create new telegram application on the official website. Read Pyrogram docs.
+
+```ini
+[pyrogram]
+api_id = 356428
+api_hash = ...
+```
