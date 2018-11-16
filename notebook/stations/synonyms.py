@@ -3,7 +3,7 @@ from yargy import interpretation, or_, rule
 from yargy.predicates import normalized
 from yargy.rule import Rule
 
-from stations.restore import Restore
+from notebook.stations.restore import Restore
 
 synonyms = {
     # 'василеостровская':         ['васька'],

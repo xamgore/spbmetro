@@ -1,9 +1,9 @@
 from flask import Flask, jsonify, send_file
 from yargy import Parser
 
-from common import TOKENIZER
+from notebook.common import TOKENIZER
+from notebook.station_title import STATION_TITLE
 from preprocess import fix_text
-from station_title import STATION_TITLE
 from structure import History, Message, Subway
 
 app = Flask(__name__)
@@ -75,4 +75,4 @@ def add_header(r):
 if __name__ == "__main__":
     app.config['JSON_AS_ASCII'] = False
     app.debug = True
-    app.run('127.0.0.1', 3000)
+    app.run('0.0.0.0', 8080)

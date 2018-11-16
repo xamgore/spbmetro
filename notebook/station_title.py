@@ -3,8 +3,8 @@ from yargy.interpretation import attribute, fact
 from yargy.predicates import normalized
 from yargy.rule import Rule
 
-from stations import abbreviations as Abbrs, synonyms as Synonyms
-from stations.restore import Restore
+from notebook.stations import abbreviations as Abbrs, synonyms as Synonyms
+from notebook.stations.restore import Restore
 from structure import Subway
 
 Phrase = fact('Phrase', [attribute('words').repeatable()])

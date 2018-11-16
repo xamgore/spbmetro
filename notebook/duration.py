@@ -2,7 +2,7 @@ from yargy import or_, rule
 from yargy.interpretation import fact
 from yargy.predicates import eq, gram
 
-from common import gnc
+from notebook.common import gnc
 from notebook.time import TIME
 
 Duration = fact('Duration', ['since', 'to'])

@@ -6,7 +6,7 @@ from yargy.interpretation import fact
 from yargy.pipelines import morph_pipeline
 from yargy.predicates import custom, eq, in_
 
-from common import TOKENIZER
+from notebook.common import TOKENIZER
 
 Time = fact('Time', ['hours', 'minutes'])
 

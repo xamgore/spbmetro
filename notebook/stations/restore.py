@@ -1,7 +1,7 @@
 import re
 from typing import Dict, List
 
-from stations import abbreviations as Abbrs
+from notebook.stations import abbreviations as Abbrs
 from structure import Subway
 
 

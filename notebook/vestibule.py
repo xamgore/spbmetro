@@ -3,8 +3,8 @@ from yargy.interpretation import attribute, fact
 from yargy.pipelines import morph_pipeline
 import yargy.interpretation as meaning
 
-from common import connect
-from literal import CONJ_NUMS, ONE_OR_TWO, LITERAL
+from notebook.common import connect
+from notebook.literal import CONJ_NUMS, ONE_OR_TWO, LITERAL
 
 Vestibule = fact('Vestibules', [attribute('num').repeatable()])
 
