@@ -29,7 +29,7 @@ def api_check_rule(offset: int):
             "date":       m.date,
             "message_id": m.message_id,
             "spans":      [_.span for _ in matches],
-            "stations":   [_.fact.title for _ in matches],
+            "stations":   [_.fact.value for _ in matches],
         }
 
 

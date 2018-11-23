@@ -6,7 +6,7 @@ from yargy.interpretation import fact
 from yargy.pipelines import morph_pipeline
 from yargy.predicates import custom, eq, in_
 
-from notebook.common import TOKENIZER
+from .common import TOKENIZER
 
 Time = fact('Time', ['hours', 'minutes'])
 
@@ -49,7 +49,7 @@ TIME = rule(
         TIME_DIGITAL,
         TIME_HUMAN,
     )
-).means(Time).named('TIME')
+).means(Time)
 
 
 if __name__ == '__main__':

@@ -1,12 +1,10 @@
 from yargy import or_, rule
-from yargy.interpretation import attribute, fact
+from yargy.interpretation import fact
 from yargy.pipelines import morph_pipeline
-import yargy.interpretation as meaning
 
-from notebook.common import connect
-from notebook.literal import CONJ_NUMS, ONE_OR_TWO, LITERAL
+from .literal import LIST_OF_LITERALS, LIST_OF_NUMERALS
 
-Vestibule = fact('Vestibules', [attribute('num').repeatable()])
+Vestibule = fact('Vestibules', ['num'])
 
 VESTIBULE_WORD = morph_pipeline(['вестибюль'])
 
@@ -14,14 +12,14 @@ VESTIBULE = rule(or_(
     # вестибюль 1 и 2
     rule(
         VESTIBULE_WORD,
-        connect(ONE_OR_TWO.means(Vestibule.num), CONJ_NUMS).optional(),
+        LIST_OF_NUMERALS.means(Vestibule.num).optional(),
     ),
     # первый и второй вестибюли
     rule(
-        connect(LITERAL.means(Vestibule.num), CONJ_NUMS),
+        LIST_OF_LITERALS.means(Vestibule.num),
         VESTIBULE_WORD,
     ),
-)).means(Vestibule).means(meaning.custom(lambda p: list(sorted(p.num))))
+)).means(Vestibule)
 
 # todo: sort numbers
 # todo: павильон
