@@ -40,7 +40,7 @@ def test(rule, *lines, tree=False, facts=False):
 
 
 def test_samples(rules: Union[NamedRule, List[NamedRule]], texts: List[str], num: int = 20, seed: int = None,
-                 markup=None):
+                 markup=None, fact=False):
     from random import seed as sed, sample
 
     sed(seed)
@@ -55,12 +55,16 @@ def test_samples(rules: Union[NamedRule, List[NamedRule]], texts: List[str], num
 
         for text_idx in range(num):
             matches = parser.findall(texts[text_idx])
-            results[text_idx][rule_idx] = matches
+            results[text_idx][rule_idx] = list(matches)
 
-    for text_idx, rule_spans in results.items():
-        spans = [(s.span[0], s.span[1], str(rules[rule_idx].name)) for rule_idx, spans in rule_spans.items() for s in
-                 spans]
+    for text_idx, rule_matches in results.items():
+        spans = [(m.span[0], m.span[1], str(rules[rule_idx].name))
+                 for rule_idx, matches in rule_matches.items()
+                 for m in matches]
+
         show_markup(texts[text_idx], spans, markup or BoxLabelMarkup)
-        for rule_idx, spans in rule_spans.items():
-            for s in spans:
-                display(s.fact)
+
+        if fact:
+            for rule_idx, matches in rule_matches.items():
+                for m in matches:
+                    display(m.fact)
