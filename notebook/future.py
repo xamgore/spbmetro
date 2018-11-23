@@ -1,32 +1,3 @@
-# LIST_OF_STATIONS = rule(
-#     STATION,
-#     rule(
-#         in_('и,--'),
-#         STATION
-#     ).repeatable().optional()
-# ).named('stations')
-
-
-# TRANSFER = rule(
-#     gram('ADJF').optional(),
-#     morph_pipeline(['переход'])
-# )
-
-# STATION_AND_TRANSFER = rule(
-#     STATION,
-#     eq('и'),
-#     TRANSFER,
-#     rule(
-#         eq('на').optional(),
-#         LIST_OF_STATIONS
-#     ).optional()
-# )
-
-# STATION_OR_TRANSFER = or_(
-#     STATION_AND_TRANSFER,
-#     STATION,
-# )
-
 # ENTER_EXIT = rule(
 #     rule(
 #         normalized('работать').optional(),
