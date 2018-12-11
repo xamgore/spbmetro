@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, send_file
 from yargy import Parser
 
-from notebook.common import TOKENIZER
 from notebook.station_title import STATION_TITLE
 from preprocess import fix_text
 from structure import History, Message, Subway
@@ -22,7 +21,7 @@ def api_check_rule(offset: int):
 
 
     def process(m: Message):
-        text = fix_text(list(TOKENIZER(m.text)), words)
+        text = fix_text(m.text, words)
         matches = sorted(parser.findall(text), key=lambda _: _.span)
         return {
             "text":       text,
