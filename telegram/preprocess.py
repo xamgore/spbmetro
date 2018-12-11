@@ -1,6 +1,6 @@
 from Levenshtein import distance
 from typing import List, Set
-from yargy.token import Token
+from yargy.token import MorphToken
 
 from common import TOKENIZER
 from structure import Subway
@@ -17,18 +17,19 @@ def fix_text(text: str, spell_dict: Set[str]):
     tokens: List = list(TOKENIZER(text))
     res, offset = list(text[:]), 0
     i, l = 0, len(tokens)
+
     while i < l:
-        token: Token = (tokens[i])
+        token: MorphToken = (tokens[i])
         value = token.value
         value_low = value.lower()
 
         for word in spell_dict:
-            dist = distance(word, value_low)
-
-            if dist == 0:
-                break  # words are equal, no fix required
-            if dist == 1 and len(value) <= len(word):
-                value = word  # one letter is missed
+            if 0 <= distance(word, value_low) <= 1:
+                # 0 - words are equal, no fix required
+                # 1 - if len(value) <= len(word), then one letter is missed inside (комендан[т]ский)
+                #     if len(value) >  len(word), then one letter is wrongly typed (ладож[к]ская)
+                #         this changes двору -> двор, but that's ok as we parse normalized forms
+                value = word
                 break
 
             ## helps to detect mistakes in texts
