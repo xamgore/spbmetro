@@ -6,7 +6,7 @@ from .literal import LIST_OF_LITERALS, LIST_OF_NUMERALS
 
 Vestibule = fact('Vestibules', ['num'])
 
-VESTIBULE_WORD = morph_pipeline(['вестибюль'])
+VESTIBULE_WORD = morph_pipeline(['вестибюль', 'павильон'])
 
 VESTIBULE = rule(or_(
     # вестибюль 1 и 2
@@ -20,6 +20,3 @@ VESTIBULE = rule(or_(
         VESTIBULE_WORD,
     ),
 )).means(Vestibule)
-
-# todo: sort numbers
-# todo: павильон
