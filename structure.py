@@ -1,6 +1,7 @@
+from pathlib import Path
 import re
 from typing import List, Dict, Iterator, Set
-
+import json
 
 
 class Event:
@@ -17,11 +18,11 @@ class Message:
         self.message_id: int = data['message_id']
         self.date: int = data['date']
         self.status: Dict[str, Event] = {k: Event(k, v) for k, v in data.get('status', {}).items()}
-        self.original_text: str = data['text']
-        self.text = self.original_text.lower().rstrip('. \n')
+        self.original_text: str = data['original']
+        self.text: str = data['text']
 
     def __repr__(self):
-        return f'<Msg(id={self.message_id}, text="{self.original_text}")>'
+        return f'<Msg(id={self.message_id}, text="{self.text}")>'
 
 
 class History:
@@ -39,9 +40,8 @@ class History:
 
     @staticmethod
     def load(path: str = 'history.json'):
-        with open(path or 'history.json') as f:
-            import json
-            return History(json.load(f))
+        content = (Path(__file__).parent / (path or 'history.json')).read_text()
+        return History(json.loads(content))
 
 
 class Station:
@@ -76,7 +76,6 @@ class Subway:
 
 
     @staticmethod
-    def load(path: str = None):
-        with open(path or 'metro.json') as f:
-            import json
-            return Subway(json.load(f))
+    def load(path: str = 'metro.json'):
+        content = (Path(__file__).parent / (path or 'metro.json')).read_text()
+        return Subway(json.loads(content))
