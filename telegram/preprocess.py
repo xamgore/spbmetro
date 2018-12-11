@@ -32,36 +32,12 @@ def fix_text(text: str, spell_dict: Set[str]):
                 value = word
                 break
 
-            ## helps to detect mistakes in texts
-            # if len(value) < len(word) and word.startswith(value_low):
-            #     if (i + 2 < l) and (tokens[i + 1].value == '-'):
-            #         end = tokens[i + 2].value
-            #         if len(end) < len(word) and word.endswith(end.lower()):
-            #             print(value, word)
-            #             value = word
-            #             i += 2
-            #             break  # abbreviature: ин-тут, о-в остров
-            #
-            #     if len(value) >= 2:
-            #         if (i + 1 < l) and tokens[i + 1].value == '.' \
-            #             and value_low not in ['пл', 'ст', 'пр']:  # площадь станция проспект
-            #             print(value, word)
-            #             value = word
-            #             i += 1
-            #             break  # abbreviation: short words with dot
-            #
-            #         if len(value) >= 3:
-            #             parsed = Parser(rule(
-            #                 not_(or_(gram('PREP'), gram('NPRO'), gram('Geox'))),
-            #             )).match(value)
-            #
-            #             if parsed and len(value) > 3 or len(value) / len(word) > 0.7:
-            #                 print(value, word)
-            #                 value = word  # prefix of the spell dictionary word
-            #             break
-
         res[offset + token.span[0]:offset + token.span[1]] = value
         offset += len(value) - len(value_low)
         i += 1
 
     return ''.join(res)
+
+# if __name__ == '__main__':
+#     for m in History.load().messages.values():
+#         (fix_text(m.text, spell_dict()))
