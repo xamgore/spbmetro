@@ -2,7 +2,7 @@ from typing import Union
 from yargy import interpretation as interp, or_, rule
 from yargy.interpretation import attribute, fact
 import yargy.interpretation as meaning
-from yargy.predicates import Predicate, dictionary, eq, in_, type
+from yargy.predicates import Predicate, dictionary, eq, in_caseless, type
 from yargy.rule import Rule
 
 
@@ -30,7 +30,7 @@ __literals = {
 LITERAL = dictionary(__literals).means(
     interp.normalized().custom(__literals.get))
 
-CONJ_NUMS = in_('-и,')
+CONJ_NUMS = in_caseless('-и,')
 
 NUMERAL = or_(*[eq(str(i)) for i in __literals.values()]).means(interp.custom(int))
 

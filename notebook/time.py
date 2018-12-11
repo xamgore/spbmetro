@@ -4,7 +4,7 @@ import re
 from yargy import or_, rule
 from yargy.interpretation import fact
 from yargy.pipelines import morph_pipeline
-from yargy.predicates import custom, eq, in_
+from yargy.predicates import caseless, custom, eq, in_
 
 from .common import TOKENIZER
 
@@ -44,13 +44,12 @@ TIME_HUMAN = rule(
 
 # в 15:00
 TIME = rule(
-    eq('в').optional(),
+    caseless('в').optional(),
     or_(
         TIME_DIGITAL,
         TIME_HUMAN,
     )
 ).means(Time)
-
 
 if __name__ == '__main__':
     print(sys.argv)

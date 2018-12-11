@@ -1,6 +1,6 @@
 from yargy import or_, rule
 from yargy.interpretation import fact
-from yargy.predicates import eq, gram
+from yargy.predicates import caseless, gram
 
 from notebook.common import gnc
 from notebook.time import TIME
@@ -8,11 +8,11 @@ from notebook.time import TIME
 Duration = fact('Duration', ['since', 'to'])
 
 FROM = rule(
-    or_(eq('от'), eq('с')),
+    or_(caseless('от'), caseless('с')),
     TIME.means(Duration.since),
 )
 
-UNTIL_PREP = or_(eq('до'), eq('по'))
+UNTIL_PREP = or_(caseless('до'), caseless('по'))
 
 UNTIL_TIME = rule(
     UNTIL_PREP,
