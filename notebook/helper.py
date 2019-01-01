@@ -44,7 +44,7 @@ def test_samples(rules: Union[NamedRule, List[NamedRule]], texts: List[str], num
     from random import seed as sed, sample
 
     sed(seed)
-    texts = sample(texts, num)
+    texts, num = (texts, len(texts)) if len(texts) < num else (sample(texts, num), num)
     results: Dict[int, Dict[int, List]] = defaultdict(dict)
 
     if not (isinstance(rules, list) or isinstance(rules, tuple)):
